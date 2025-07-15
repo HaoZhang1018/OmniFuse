@@ -5,7 +5,7 @@ _"OmniFuse: Composite Degradation-Robust Image Fusion with Language-Driven Seman
 ## Functions
 ![Schematic diagram of OmniFuse's functions.](https://github.com/HaoZhang1018/OmniFuse/blob/main/Display/Functions.png)
 
-## Environmental Installation
+## ⚙️ Environmental Installation
 ```
 conda create -n OmniFuse python=3.9.19
 conda activate OmniFuse
@@ -32,7 +32,7 @@ pip install ftfy regex tqdm
 pip install git+https://github.com/openai/CLIP.git
 ```
 ****
-## Preparing pre-trained weights
+### Preparing tools
 The model requires pre-trained weights for GroundingDINO-SAM and BERT.
 Navigate to the following directories and download the pre-trained parameters as instructed.
 Place the downloaded weights in the specified paths accordingly.
