@@ -88,7 +88,4 @@ If our work assists your research, feel free to give us a star or cite us using:
 - [ ] OmniFuse supports language instructions to achieve fine-grained control over the fusion process, emphasizing semantic objects of interest, which potentially facilitates downstream semantic applications.
 ## Acknowledgements
 Our code is built upon the following libraries. We sincerely thank the authors for their contributions. If you use any components or pretrained weights from these works, please make sure to cite the corresponding references.
-#### [IR-SDR](https://github.com/Algolzw/image-restoration-sde) 
-#### [SegNeXt](https://github.com/Visual-Attention-Network/SegNeXt) 
-#### [GroundingDINO](https://github.com/IDEA-Research/GroundingDINO) 
-#### [SAM](https://github.com/facebookresearch/segment-anything) 
+#### [IR-SDR](https://github.com/Algolzw/image-restoration-sde) | [SegNeXt](https://github.com/Visual-Attention-Network/SegNeXt) | [GroundingDINO](https://github.com/IDEA-Research/GroundingDINO) | [SAM](https://github.com/facebookresearch/segment-anything) 
