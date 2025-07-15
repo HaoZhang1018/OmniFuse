@@ -86,4 +86,9 @@ If our work assists your research, feel free to give us a star or cite us using:
 ## Illustrate
 - [ ] OmniFuse is highly robust to the real scenario where both multi-source images exhibit composite degradation. Typical degradation types are considered, including inadequate illumination, noise, and color cast in visible images, and low contrast, noise, and uneven stripes in infrared images.
 - [ ] OmniFuse supports language instructions to achieve fine-grained control over the fusion process, emphasizing semantic objects of interest, which potentially facilitates downstream semantic applications.
-      
+## Acknowledgements
+Our code is built upon the following libraries. We sincerely thank the authors for their contributions. If you use any components or pretrained weights from these works, please make sure to cite the corresponding references.
+#### [IR-SDR](https://github.com/Algolzw/image-restoration-sde) 
+#### [SegNeXt](https://github.com/Visual-Attention-Network/SegNeXt) 
+####[GroundingDINO](https://github.com/IDEA-Research/GroundingDINO) 
+####[SAM](https://github.com/facebookresearch/segment-anything) 
