@@ -27,10 +27,53 @@ Installing additional dependencies
 ```
 pip install -r requirements.txt
 ```
+## Preparing pre-trained weights
+The model requires pre-trained weights for GroundingDINO-SAM and BERT.
+Navigate to the following directories and download the pre-trained parameters as instructed.
+Place the downloaded weights in the specified paths accordingly.
+```
+- GroundingDINO-SAM: Place the checkpoint in : './models/bert-base-uncased/'
+- BERT: Place the model in: './models/groundingdino_sam_checkpoints/'
+```
+## Test
+### Prepare Dataset
+Please place the data in the following path:
+```
+./datasets/
+```
+### pre-trained weights
+We provide pre-trained model parameters. Please download them according to the instruction file paths at the following addresses.
+```
+./pretrained/
+```
+### Run 
+You can modify the parameter settings in test_Fusion.yaml, such as setting **Fusion_Model_type** to **base** or **modulated**, depending on whether text modulation is used. Then run the code.
+```
+python test_Fusion.py -opt ./options/test/test_Fusion.yml
+```
 
+## Train
+### Prepare Dataset
+Please place the data in the following path:
+```
+./datasets/
+```
+### train AutoEncoder model 
+```
+python train_AE.py -opt ./options/train/train_AE.yml
+```
+### train LatentDiffusion model 
+```
+python test_latentdiffusion.py -opt ./options/train/train_LatentDif_VIS.yml
+python test_latentdiffusion.py -opt ./options/train/train_LatentDif_IR.yml
+```
+### train Fusion model
+```
+python test_Fusion.py -opt ./options/train/train_Fusion.yml
+```
 
 ## Citation
-If our work assists your research, feel free to give us a star ⭐ or cite us using:
+If our work assists your research, feel free to give us a star or cite us using:
 ```
 @article{zhang2025omnifuse,
   title={OmniFuse: Composite Degradation-Robust Image Fusion with Language-Driven Semantics},
