@@ -1,0 +1,37 @@
+name: latent_AutoEncoder
+suffix: ~  # add suffix to saved images
+model: latent
+distortion: mixed
+gpu_ids: [1]
+
+degradation:
+  # for denoising
+  sigma: 25
+  noise_type: G # Gaussian noise: G
+
+  # for super-resolution
+  scale: 4
+
+datasets:
+  test1:
+    name: AutoEncoder
+    mode: XYLQGT
+    dataroot_X_GT: "./datasets/AE/test/X/GT/"
+    dataroot_X_LQ: "./datasets/AE/test/X/LQ/"
+    dataroot_Y_GT: "./datasets/AE/test/Y/GT/"
+    dataroot_Y_LQ: "./datasets/AE/test/Y/LQ/"
+
+#### network structures
+network_AE:
+  which_model: UNet
+  setting:
+    in_ch: 3
+    out_ch: 3
+    ch: 8
+    ch_mult: [4, 8, 8, 16]
+    embed_dim: 8
+
+#### path
+path:
+  pretrain_model_AE: "./pretrained/AutoEncoder.pth"
+

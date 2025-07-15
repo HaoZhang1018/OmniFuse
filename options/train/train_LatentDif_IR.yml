@@ -1,0 +1,101 @@
+#### general settings
+name: Latent_Diffusion
+use_tb_logger: true
+model: latent_denoising
+distortion: mixed
+gpu_ids: [3]
+
+sde:
+  max_sigma: 50
+  T: 100
+  sample_T: 100
+  schedule: cosine # linear, cosine
+  eps: 0.005
+
+degradation: # for some synthetic dataset that only have GTs
+  # for denoising
+  sigma: 25
+  noise_type: G # Gaussian noise: G
+
+  # for super-resolution
+  scale: 4
+  
+#### datasets
+datasets:
+  train:
+    name: Train_Dataset
+    mode: LQGT
+    dataroot_GT: ./datasets/LatentDif_IR/train/GT
+    dataroot_LQ: ./datasets/LatentDif_IR/train/LQ
+
+    use_shuffle: true
+    n_workers: 8  # per GPU
+    #batch_size: 128
+    batch_size: 8
+    GT_size: 480
+    LR_size: 480
+    use_flip: true
+    use_rot: true
+    use_swap: false
+    color: RGB
+  val:
+    name: Val_Dataset
+    mode: LQGT
+    dataroot_GT: ./datasets/LatentDif_IR/test/GT
+    dataroot_LQ: ./datasets/LatentDif_IR/test/LQ
+
+
+#### network structures
+network_Diff:
+  which_model: ConditionalNAFNet
+  setting:
+    img_channel: 8
+    width: 64
+    enc_blk_nums: [1, 1, 1, 28]
+    middle_blk_num: 1
+    dec_blk_nums: [1, 1, 1, 1]
+
+
+# decoder & encoder
+network_AE:
+  which_model: UNet
+  setting:
+    in_ch: 3
+    out_ch: 3
+    ch: 8
+    ch_mult: [4, 8, 8, 16]
+    embed_dim: 8
+
+#### path
+path:
+  pretrain_model_Diff: ~
+  strict_load: true
+  resume_state: ~
+  pretrain_model_AE: ./pretrained/AutoEncoder.pth
+
+#### training settings: learning rate scheme, loss
+train:
+  optimizer: Lion
+  lr_G: !!float 3e-5
+  lr_scheme: TrueCosineAnnealingLR
+  beta1: 0.9
+  beta2: 0.99
+  #niter: 400000
+  niter: 10000000
+  warmup_iter: -1  # no warm up
+  lr_steps: [200000, 400000, 600000]
+  lr_gamma: 0.5
+  eta_min: !!float 1e-7
+
+  # criterion
+  is_weighted: False
+  loss_type: l1
+  weight: 1.0
+
+  manual_seed: 0
+  val_freq: !!float 1e4
+
+#### logger
+logger:
+  print_freq: 200
+  save_checkpoint_freq: !!float 1e4

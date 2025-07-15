@@ -1,0 +1,146 @@
+#### general settings
+name: Fusion_Model
+use_tb_logger: true
+model: Fusion
+distortion: mixed
+Fusion_task: train
+Fusion_Model_type: modulated
+gpu_ids: [3] # [0,1,2,3]
+
+sde:
+  max_sigma: 50
+  T: 100
+  sample_T: 100
+  schedule: cosine # linear, cosine
+  eps: 0.005
+
+Grounding_SAM:
+  config_file_path: ./models/groundingdino/config/GroundingDINO_SwinT_OGC.py
+  grounded_checkpoint_path: ./models/groundingdino_sam_checkpoints/groundingdino_swint_ogc.pth
+  sam_version: vit_h
+  sam_checkpoint_path:  ./models/groundingdino_sam_checkpoints/sam_vit_h_4b8939.pth
+
+degradation:
+  # for denoising
+  sigma: 25
+  noise_type: G # Gaussian noise: G
+
+  # for super-resolution
+  scale: 4
+#### datasets
+datasets:
+  train:
+    name: Train_Dataset
+    mode: XYPrompt
+    dataroot_X: ./datasets/Fusion/train/Modal_X
+    dataroot_Y: ./datasets/Fusion/train/Modal_Y
+    dataroot_Seg_Label: ./datasets/Fusion/train/Seg_Label
+    dataroot_Fusion_Base: ./datasets/Fusion/train/Fusion_Base
+    prompt_list: ./datasets/Fusion/train/Train_Fusion.txt
+    With_prompt: True
+    
+    use_shuffle: true
+    n_workers: 8  # per GPU
+    batch_size: 2
+    Modal_X_size: 600
+    Modal_Y_size: 600
+    use_flip: false
+    use_rot: false
+    use_swap: false
+    color: RGB
+  val:
+    name: Val_Dataset
+    mode: XYPrompt
+    With_prompt: True
+    dataroot_X: ./datasets/Fusion/test/Modal_X
+    dataroot_Y: ./datasets/Fusion/test/Modal_Y
+    prompt_list: ./datasets/Fusion/test/Test_Fusion.txt
+
+
+#### network structures
+network_Fuse:
+  which_model: FusionNet
+  setting:
+    # in_ch: [16, 16, 16, 16, 64, 64, 128, 128, 128, 128]
+    # out_ch: [8, 8, 8, 8, 32, 32, 64, 64, 64, 64]
+    in_channels: 32
+    model_channels: 64
+    out_channels: 16
+    num_res_blocks: 1
+    channel_mult: [1, 2, 4, 4]
+    use_checkpoint: False
+    num_head_channels: 64
+    use_spatial_transformer: False
+    transformer_depth: 1
+    context_dim: None  # same as clip 
+# 
+network_Diff:
+  which_model: ConditionalNAFNet
+  setting:
+    img_channel: 8
+    width: 64
+    enc_blk_nums: [1, 1, 1, 28]
+    middle_blk_num: 1
+    dec_blk_nums: [1, 1, 1, 1]
+
+
+# decoder & encoder
+network_AE:
+  which_model: UNet
+  setting:
+    in_ch: 3
+    out_ch: 3
+    ch: 8
+    ch_mult: [4, 8, 8, 16]
+    embed_dim: 8
+
+Clip_text:
+  which_model: FrozenCLIPTextEmbedder
+  setting:
+    version: 'ViT-L/14'
+
+    
+    
+network_Seg:
+  which_model: SegFormer
+  setting:
+    backbone: mit_b3
+    num_classes: 9
+    embedding_dim: 256
+
+
+#### path
+path:
+  pretrain_model_Fuse: ~
+  strict_load: true
+  resume_state: ~
+  pretrain_model_Diff_X: ./pretrained/Latent_Dif_VIS.pth
+  pretrain_model_Diff_Y: ./pretrained/Latent_Dif_IR.pth
+  pretrain_model_AE: ./pretrained/AutoEncoder.pth
+
+#### training settings: learning rate scheme, loss
+train:
+  optimizer: AdamW # Lion
+  lr_G: !!float 1e-5 # 3e-5
+  lr_scheme: TrueCosineAnnealingLR
+  beta1: 0.9
+  beta2: 0.99
+  niter: 300000
+  warmup_iter: -1  # no warm up
+  lr_steps: [200000, 400000, 600000]
+  lr_gamma: 0.5
+  eta_min: !!float 1e-7
+
+  # criterion
+  is_weighted: False
+  loss_type: l1
+  weight: 50.0
+
+  manual_seed: 0
+  val_freq: !!float 20
+  val_seg: !!float 5
+
+#### logger
+logger:
+  print_freq: 20
+  save_checkpoint_freq: !!float 500
