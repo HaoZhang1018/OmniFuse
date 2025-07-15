@@ -73,6 +73,7 @@ python test_latentdiffusion.py -opt ./options/train/train_LatentDif_VIS.yml
 python test_latentdiffusion.py -opt ./options/train/train_LatentDif_IR.yml
 ```
 ### train Fusion model
+The training of the fusion model is divided into two parts. The first is the training of the base model, which is done by setting the training parameter **Fusion_Model_type** to **base**. The pretrained parameters, basic fusion results, and segmentation parameters obtained from this process will serve as the foundation for training in the **modulated** mode.
 ```
 python test_Fusion.py -opt ./options/train/train_Fusion.yml
 ```
