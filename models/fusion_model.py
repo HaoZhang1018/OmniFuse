@@ -140,8 +140,7 @@ class FusionModel(BaseModel):
                 missing1, unexpected1 = self.Seg_model.backbone.load_state_dict(new_backbone_state, strict=True)
                 missing2, unexpected2 = self.Seg_model.decode_head.load_state_dict(new_head_state, strict=True)
                 for param in self.Seg_model.parameters():
-                    param.requires_grad = False
-                self.Seg_model.eval()
+                    param.requires_grad = True
                 print("Backbone Missing:", missing1)
                 print("Backbone Unexpected:", unexpected1)
                 print("Decode Head Missing:", missing2)
@@ -163,7 +162,8 @@ class FusionModel(BaseModel):
                               
         if opt["dist"]:
             self.fuse_model = DistributedDataParallel(self.fuse_model, device_ids=[torch.cuda.current_device()])
-
+            if opt["Fusion_Model_type"]=='modulated':
+                self.Seg_model = DistributedDataParallel(self.Seg_model, device_ids=[torch.cuda.current_device()]) 
         self.load()
 
         self.encode = self.ae_model.encode
@@ -174,6 +174,8 @@ class FusionModel(BaseModel):
 
         if self.is_train:
             self.fuse_model.train()
+            if opt["Fusion_Model_type"]=='modulated':
+                self.Seg_model.train()
 
             if opt["Fusion_Model_type"]=='modulated':
                 self.loss_fn = fusion_modulated_loss().to(self.device)
@@ -194,7 +196,16 @@ class FusionModel(BaseModel):
                 else:
                     if self.rank <= 0:
                         logger.warning("Params [{:s}] will not optimize.".format(k))
- 
+            if opt["Fusion_Model_type"]=='modulated':
+                for (
+                    k,
+                    v,
+                ) in self.fuse_model.named_parameters():  # can optimize for a part of the model
+                    if v.requires_grad:
+                        optim_params.append(v)
+                    else:
+                        if self.rank <= 0:
+                            logger.warning("Params [{:s}] will not optimize.".format(k)) 
             if train_opt['optimizer'] == 'Adam':
                 self.optimizer = torch.optim.Adam(
                     optim_params,
@@ -269,6 +280,7 @@ class FusionModel(BaseModel):
                 raise NotImplementedError("MultiStepLR learning rate scheme is enough.")
 
             self.log_dict = OrderedDict()
+    
     
     def add_dataset(self,Seg_Label=None, Fusion_Base=None):           
         if Seg_Label==None or Fusion_Base==None:
