@@ -4,7 +4,7 @@ use_tb_logger: true
 model: Fusion
 distortion: mixed
 Fusion_task: train
-Fusion_Model_type: modulated
+Fusion_Model_type: base
 gpu_ids: [3] # [0,1,2,3]
 
 sde:
