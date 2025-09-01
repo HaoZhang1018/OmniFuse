@@ -47,7 +47,7 @@ Please place the data in the following path:
 ./datasets/
 ```
 ### pre-trained weights
-We provide pre-trained model parameters. Please download them according to the instruction file paths at the following addresses.
+We provide pre-trained model parameters. Please download them according to the instruction file paths [Google](https://drive.google.com/drive/folders/1Hegog7ZAPzfyMIiNKlVPb2vCpfZ8Yfk-?usp=sharing.) at the following addresses.
 ```
 ./pretrained/
 ```
