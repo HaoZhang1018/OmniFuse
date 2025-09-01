@@ -34,7 +34,7 @@ pip install git+https://github.com/openai/CLIP.git
 ****
 ### Preparing tools
 The model requires pre-trained weights for GroundingDINO-SAM and BERT.
-Navigate to the following directories and download the pre-trained parameters as instructed.
+Navigate to the following directories [\[Instruction Path\]](https://github.com/HaoZhang1018/OmniFuse/tree/main/models/bert-base-uncased)  and download the pre-trained parameters as instructed.
 Place the downloaded weights in the specified paths accordingly.
 ```
 - GroundingDINO-SAM: Place the checkpoint in : './models/bert-base-uncased/'
