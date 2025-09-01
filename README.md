@@ -47,7 +47,7 @@ Please place the data in the following path:
 ./datasets/
 ```
 ### pre-trained weights
-We provide pre-trained model parameters. Please download them according to the instruction file paths [Google Drive](https://drive.google.com/drive/folders/1Hegog7ZAPzfyMIiNKlVPb2vCpfZ8Yfk-?usp=sharing.) at the following addresses.
+We provide pre-trained model parameters. Please download them according to the instruction file paths [\[Instruction Path\]](https://github.com/HaoZhang1018/OmniFuse/tree/main/pretrained) at the following addresses, and save these pre-trained models under the following folder path.
 ```
 ./pretrained/
 ```
