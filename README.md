@@ -42,7 +42,7 @@ Place the downloaded weights in the specified paths accordingly.
 ```
 ## ❄️ Test
 ### Prepare Dataset
-Please place the data in the following path:
+Please place the data in the following path (Note: X indicates visible images, and Y indicates infrared images):
 ```
 ./datasets/
 ```
@@ -59,7 +59,7 @@ python test_Fusion.py -opt ./options/test/test_Fusion.yml
 
 ## 🔥 Train
 ### Prepare Dataset
-Please place the data in the following path:
+Please place the data in the following path (Note: X indicates visible images, and Y indicates infrared images):
 ```
 ./datasets/
 ```
