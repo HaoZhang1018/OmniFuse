@@ -82,7 +82,7 @@ python train_Fusion.py -opt ./options/train/train_Fusion.yml
 If our work assists your research, feel free to give us a star or cite us using:
 ```
 @article{zhang2025omnifuse,
-  title={OmniFuse: Composite Degradation-Robust Image Fusion with Language-Driven Semantics},
+  title={OmniFuse: Composite degradation-robust image fusion with language-driven semantics},
   author={Zhang, Hao and Cao, Lei and Zuo, Xuhui and Shao, Zhenfeng and Ma, Jiayi},
   journal={IEEE Transactions on Pattern Analysis and Machine Intelligence},
   volume={47},
