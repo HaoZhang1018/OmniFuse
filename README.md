@@ -85,6 +85,9 @@ If our work assists your research, feel free to give us a star or cite us using:
   title={OmniFuse: Composite Degradation-Robust Image Fusion with Language-Driven Semantics},
   author={Zhang, Hao and Cao, Lei and Zuo, Xuhui and Shao, Zhenfeng and Ma, Jiayi},
   journal={IEEE Transactions on Pattern Analysis and Machine Intelligence},
+  volume={47},
+  number={9},
+  pages={7577--7595},
   year={2025},
   publisher={IEEE}
 }
